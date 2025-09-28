@@ -1445,106 +1445,11 @@ p .plot-d6a7b5 {
   unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
 }
     </style>
-  <meta name="generator" content="Observable Notebook Kit v1.4.1"><title>Voronoi Stippling</title>  <script type="module" crossorigin src="./assets/voronoi-C6dydzGS.js"></script>
+  <meta name="generator" content="Observable Notebook Kit v1.4.1"><title>Voronoi Stippling</title>  <script type="module" crossorigin src="./assets/voronoi-BNoey-qm.js"></script>
 </head>
   <body>
     <main><div id="cell-1" class="observablehq observablehq--cell"><div><h1>Voronoi Stippling</h1>
-</div></div><div id="cell-9" class="observablehq observablehq--cell"></div><div id="cell-5" class="observablehq observablehq--cell"></div><div id="cell-7" class="observablehq observablehq--cell"></div><div id="cell-2" class="observablehq observablehq--cell"></div><div id="cell-13" class="observablehq observablehq--cell"></div><pre data-language="js"><code class="language-js"><span class="tok-keyword">const</span> <span class="tok-definition">height</span> = <span class="tok-variable">data</span>.<span class="tok-definition">height</span>;
-<span class="tok-keyword">const</span> <span class="tok-definition">n2</span> = <span class="tok-variable">Math</span>.<span class="tok-definition">round</span>(<span class="tok-variable">width</span> * <span class="tok-variable">height</span> / <span class="tok-literal">40</span>);
-<span class="tok-keyword">const</span> <span class="tok-definition">canvas</span> = <span class="tok-variable">display</span>(<span class="tok-variable">document</span>.<span class="tok-definition">createElement</span>(<span class="tok-string">"canvas"</span>));
-<span class="tok-variable">canvas</span>.<span class="tok-definition">width</span> = <span class="tok-variable">width</span> * <span class="tok-variable">devicePixelRatio</span>;
-<span class="tok-variable">canvas</span>.<span class="tok-definition">height</span> = <span class="tok-variable">height</span> * <span class="tok-variable">devicePixelRatio</span>;
-<span class="tok-variable">canvas</span>.<span class="tok-definition">style</span>.<span class="tok-definition">width</span> = <span class="tok-string">`</span>${<span class="tok-variable">width</span>}<span class="tok-string">px`</span>;
-<span class="tok-keyword">const</span> <span class="tok-definition">context</span> = <span class="tok-variable">canvas</span>.<span class="tok-definition">getContext</span>(<span class="tok-string">"2d"</span>);
-<span class="tok-variable">context</span>.<span class="tok-definition">scale</span>(<span class="tok-variable">devicePixelRatio</span>, <span class="tok-variable">devicePixelRatio</span>);
-<span class="tok-keyword">const</span> <span class="tok-definition">worker</span> = <span class="tok-keyword">new</span> <span class="tok-definition">Worker</span>(<span class="tok-variable">script2</span>, {<span class="tok-definition">type</span>: <span class="tok-string">"module"</span>});
-
-<span class="tok-keyword">function</span> <span class="tok-definition">messaged2</span>({<span class="tok-definition">data</span>: <span class="tok-definition">points</span>}) {
-  <span class="tok-variable">context</span>.<span class="tok-definition">fillStyle</span> = <span class="tok-string">"#fff"</span>;
-  <span class="tok-variable">context</span>.<span class="tok-definition">fillRect</span>(<span class="tok-literal">0</span>, <span class="tok-literal">0</span>, <span class="tok-variable">width</span>, <span class="tok-variable">height</span>);
-  <span class="tok-variable">context</span>.<span class="tok-definition">beginPath</span>();
-  <span class="tok-keyword">for</span> (<span class="tok-keyword">let</span> <span class="tok-definition">i</span> = <span class="tok-literal">0</span>, <span class="tok-definition">n</span> = <span class="tok-variable">points</span>.<span class="tok-definition">length</span>; <span class="tok-variable">i</span> &lt; <span class="tok-variable">n</span>; <span class="tok-variable">i</span> += <span class="tok-literal">3</span>) {
-    <span class="tok-keyword">const</span> <span class="tok-definition">x</span> = <span class="tok-variable">points</span>[<span class="tok-variable">i</span>], <span class="tok-definition">y</span> = <span class="tok-variable">points</span>[<span class="tok-variable">i</span> + <span class="tok-literal">1</span>];
-    <span class="tok-variable">context</span>.<span class="tok-definition">moveTo</span>(<span class="tok-variable">x</span> + <span class="tok-literal">1.5</span>, <span class="tok-variable">y</span>);
-    <span class="tok-variable">context</span>.<span class="tok-definition">arc</span>(<span class="tok-variable">x</span>, <span class="tok-variable">y</span>, <span class="tok-literal">1.5</span>, <span class="tok-literal">0</span>, <span class="tok-literal">2</span> * <span class="tok-variable">Math</span>.<span class="tok-definition">PI</span>);
-  }
-  <span class="tok-variable">context</span>.<span class="tok-definition">fillStyle</span> = <span class="tok-string">"#000"</span>;
-  <span class="tok-variable">context</span>.<span class="tok-definition">fill</span>();
-}
-
-<span class="tok-variable">invalidation</span>.<span class="tok-definition">then</span>(() =&gt; <span class="tok-variable">worker</span>.<span class="tok-definition">terminate</span>());
-<span class="tok-variable">worker</span>.<span class="tok-definition">addEventListener</span>(<span class="tok-string">"message"</span>, <span class="tok-variable">messaged2</span>);
-<span class="tok-variable">worker</span>.<span class="tok-definition">postMessage</span>({<span class="tok-definition">data</span>, <span class="tok-definition">width</span>, <span class="tok-definition">height</span>, <span class="tok-definition">n</span>});</code></pre><div id="cell-4" class="observablehq observablehq--cell"></div><div id="cell-3" class="observablehq observablehq--cell"></div><pre data-language="js"><code class="language-js"><span class="tok-keyword">const</span> <span class="tok-definition">image</span> = <span class="tok-variable">file</span>;
-<span class="tok-keyword">const</span> <span class="tok-definition">height</span> = <span class="tok-variable">Math</span>.<span class="tok-definition">round</span>(<span class="tok-variable">width</span> * <span class="tok-variable">image</span>.<span class="tok-definition">height</span> / <span class="tok-variable">image</span>.<span class="tok-definition">width</span>);
-<span class="tok-keyword">const</span> <span class="tok-definition">canvas</span> = <span class="tok-variable">document</span>.<span class="tok-definition">createElement</span>(<span class="tok-string">"canvas"</span>);
-<span class="tok-variable">canvas</span>.<span class="tok-definition">width</span> = <span class="tok-variable">width</span>;
-<span class="tok-variable">canvas</span>.<span class="tok-definition">height</span> = <span class="tok-variable">height</span>;
-<span class="tok-keyword">const</span> <span class="tok-definition">context</span> = <span class="tok-variable">canvas</span>.<span class="tok-definition">getContext</span>(<span class="tok-string">"2d"</span>);
-<span class="tok-variable">context</span>.<span class="tok-definition">drawImage</span>(<span class="tok-variable">image</span>, <span class="tok-literal">0</span>, <span class="tok-literal">0</span>, <span class="tok-variable">image</span>.<span class="tok-definition">width</span>, <span class="tok-variable">image</span>.<span class="tok-definition">height</span>, <span class="tok-literal">0</span>, <span class="tok-literal">0</span>, <span class="tok-variable">width</span>, <span class="tok-variable">height</span>);
-<span class="tok-keyword">const</span> {<span class="tok-definition">data</span>: <span class="tok-definition">rgba</span>} = <span class="tok-variable">context</span>.<span class="tok-definition">getImageData</span>(<span class="tok-literal">0</span>, <span class="tok-literal">0</span>, <span class="tok-variable">width</span>, <span class="tok-variable">height</span>);
-<span class="tok-keyword">const</span> <span class="tok-definition">data</span> = <span class="tok-keyword">new</span> <span class="tok-definition">Float64Array</span>(<span class="tok-variable">width</span> * <span class="tok-variable">height</span>);
-<span class="tok-keyword">for</span> (<span class="tok-keyword">let</span> <span class="tok-definition">i</span> = <span class="tok-literal">0</span>, <span class="tok-definition">n</span> = <span class="tok-variable">rgba</span>.<span class="tok-definition">length</span> / <span class="tok-literal">4</span>; <span class="tok-variable">i</span> &lt; <span class="tok-variable">n</span>; ++<span class="tok-variable">i</span>) <span class="tok-variable">data</span>[<span class="tok-variable">i</span>] = <span class="tok-variable">Math</span>.<span class="tok-definition">max</span>(<span class="tok-literal">0</span>, <span class="tok-literal">1</span> - <span class="tok-variable">rgba</span>[<span class="tok-variable">i</span> * <span class="tok-literal">4</span>] / <span class="tok-literal">254</span>);
-<span class="tok-variable">data</span>.<span class="tok-definition">width</span> = <span class="tok-variable">width</span>;
-<span class="tok-variable">data</span>.<span class="tok-definition">height</span> = <span class="tok-variable">height</span>;</code></pre><div id="cell-11" class="observablehq observablehq--cell"></div><pre data-language="ts"><code class="language-ts"><span class="tok-variable">file</span></code></pre><div id="cell-10" class="observablehq observablehq--cell"></div><pre data-language="js"><code class="language-js"><span class="tok-keyword">const</span> <span class="tok-definition">attempted_new_blob</span> = <span class="tok-keyword">new</span> <span class="tok-definition">Blob</span>([<span class="tok-string">`</span>
-<span class="tok-string">  import {Delaunay} from "</span>${<span class="tok-keyword">import</span>.<span class="tok-definition">meta</span>.<span class="tok-definition">resolve</span>(<span class="tok-string">"npm:d3-delaunay"</span>)}<span class="tok-string">";</span>
-
-<span class="tok-string">  onmessage = (event) =&gt; {</span>
-<span class="tok-string">  const {data: {data, width, height, n}} = event;</span>
-<span class="tok-string">  const nothing_could_possibly_be_called_this = new Float64Arrat(n);</span>
-<span class="tok-string">  const points = new Float64Array(n * 3);</span>
-<span class="tok-string">  const points_without_size = new Float64Array(n * 2);</span>
-<span class="tok-string">  const c = new Float64Array(n * 2);</span>
-<span class="tok-string">  const s = new Float64Array(n);</span>
-
-<span class="tok-string">  for (let i = 0; i &lt; n; ++i) {</span>
-<span class="tok-string">    for (let j = 0; j &lt; 30; ++j) {</span>
-<span class="tok-string">      const x = points[i * 3] = Math.floor(Math.random() * width);</span>
-<span class="tok-string">      const y = points[i * 3 + 1] = Math.floor(Math.random() * height);</span>
-<span class="tok-string">      if (Math.random() &lt; data[y * width + x]) break;</span>
-<span class="tok-string">    }</span>
-<span class="tok-string">  }</span>
-<span class="tok-string">  for (let i = 0; i &lt; n; ++i) {</span>
-<span class="tok-string">    points_without_size[i * 2] = points[i * 3]</span>
-<span class="tok-string">    points_without_size[i * 2 + 1] = points[i * 3 + 1]</span>
-<span class="tok-string">  }</span>
-<span class="tok-string">  const delaunay = new Delaunay(points_without_size);</span>
-<span class="tok-string">  const voronoi = delaunay.voronoi([0, 0, width, height]);</span>
-
-<span class="tok-string">  for (let k = 0; k &lt; 80; ++k) {</span>
-
-<span class="tok-string">    c.fill(0);</span>
-<span class="tok-string">    s.fill(0);</span>
-<span class="tok-string">    for (let y = 0, i = 0; y &lt; height; ++y) {</span>
-<span class="tok-string">      for (let x = 0; x &lt; width; ++x) {</span>
-<span class="tok-string">        const gamma = </span>${<span class="tok-variable">gamma</span>}<span class="tok-string">;</span>
-<span class="tok-string">        const w = Math.pow(data[y * width + x], gamma);</span>
-
-<span class="tok-string">        i = delaunay.find(x + 0.5, y + 0.5, i);</span>
-<span class="tok-string">        nothing_could_possibly_be_called_this[i] = w;</span>
-<span class="tok-string">        s[i] += w;</span>
-<span class="tok-string">        c[i * 2] += w * (x + 0.5);</span>
-<span class="tok-string">        c[i * 2 + 1] += w * (y + 0.5);</span>
-<span class="tok-string">      }</span>
-<span class="tok-string">    }</span>
-
-<span class="tok-string">    const w = Math.pow(k + 1, -0.8) * 10;</span>
-<span class="tok-string">    for (let i = 0; i &lt; n; ++i) {</span>
-<span class="tok-string">      const x0 = points[i * 3], y0 = points[i * 3 + 1];</span>
-<span class="tok-string">      const x1 = s[i] ? c[i * 2] / s[i] : x0, y1 = s[i] ? c[i * 2 + 1] / s[i] : y0;</span>
-<span class="tok-string">      points[i * 3] = x0 + (x1 - x0) * 1.8 + (Math.random() - 0.5) * w;</span>
-<span class="tok-string">      points[i * 3 + 1] = y0 + (y1 - y0) * 1.8 + (Math.random() - 0.5) * w;</span>
-<span class="tok-string">      points[i * 3 + 2] = nothing_could_possibly_be_called_this[i];</span>
-<span class="tok-string">    }</span>
-
-<span class="tok-string">    postMessage(points);</span>
-<span class="tok-string">    voronoi.update();</span>
-<span class="tok-string">  }</span>
-
-<span class="tok-string">  close();</span>
-<span class="tok-string">};</span>
-<span class="tok-string">`</span>], {<span class="tok-definition">type</span>: <span class="tok-string">"text/javascript"</span>});
-<span class="tok-keyword">const</span> <span class="tok-definition">script2</span> = <span class="tok-variable">URL</span>.<span class="tok-definition">createObjectURL</span>(<span class="tok-variable">attempted_new_blob</span>);
-<span class="tok-variable">invalidation</span>.<span class="tok-definition">then</span>(() =&gt; <span class="tok-variable">URL</span>.<span class="tok-definition">revokeObjectURL</span>(<span class="tok-variable">script</span>));</code></pre><div id="cell-12" class="observablehq observablehq--cell"></div><pre data-language="ojs"><code class="language-ojs">import {imageInput} from "@mbostock/file-input"</code></pre></main>
+</div></div><div id="cell-9" class="observablehq observablehq--cell"></div><div id="cell-5" class="observablehq observablehq--cell"></div><div id="cell-7" class="observablehq observablehq--cell"></div><div id="cell-2" class="observablehq observablehq--cell"></div><div id="cell-13" class="observablehq observablehq--cell"></div><div id="cell-4" class="observablehq observablehq--cell"></div><div id="cell-3" class="observablehq observablehq--cell"></div><div id="cell-10" class="observablehq observablehq--cell"></div><div id="cell-12" class="observablehq observablehq--cell"></div></main>
   
 
 <style type="text/css">:root {
